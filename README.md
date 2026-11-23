@@ -2,7 +2,7 @@
 
 Your coding agent shows you what it is about to run. You should be able to read it.
 
-<img src="https://raw.githubusercontent.com/acoyfellow/pi-legible/main/docs/hero.gif" width="720" alt="A pi session switching between without and with pi-legible">
+<a href="https://raw.githubusercontent.com/acoyfellow/pi-legible/main/docs/demo.mp4"><img src="https://raw.githubusercontent.com/acoyfellow/pi-legible/main/docs/demo.gif" alt="Two pi sessions running the same task side by side, without and with pi-legible"></a>
 
 <table>
 <tr><th>Without</th><th>With</th></tr>
