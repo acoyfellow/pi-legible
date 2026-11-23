@@ -1,6 +1,12 @@
 # pi-legible
 
-Agents write code as one long line. You have to read it.
+Your coding agent shows you what it is about to run. You should be able to read it.
+
+| Without | With pi-legible |
+|---|---|
+| ![The same pi session without pi-legible: the shell command is one long line, the Python and SQL are cramped](docs/before.png) | ![The same session with pi-legible: one shell step per line, Python and SQL properly formatted](docs/after.png) |
+
+Same session, same terminal. Real screenshots of pi.
 
 This [pi](https://pi.dev) extension makes the code in your transcript legible:
 
@@ -10,25 +16,6 @@ This [pi](https://pi.dev) extension makes the code in your transcript legible:
 4. **The model is asked** to write legible code in the first place.
 
 Only the display changes. What runs is exactly what the model wrote.
-
-Before:
-
-```
-$ sleep 2; tmux send-keys -t login -l "/quit"; tmux send-keys -t login Enter; sleep 3; cd ~/app && Q="How many zones?"; node evals/talker.mjs app/talker "$Q" | tail -3
-```
-
-After:
-
-```
-$ sleep 2
-  tmux send-keys -t login -l "/quit"
-  tmux send-keys -t login Enter
-  sleep 3
-  cd ~/app &&
-    Q="How many zones?"
-  node evals/talker.mjs app/talker "$Q" |
-    tail -3
-```
 
 ## Install
 
@@ -78,6 +65,15 @@ It appends a short rule to the system prompt: one shell step per line, a script 
 ```sh
 npm install
 bun test
+```
+
+## Screenshots
+
+The README images are real pi sessions in [cmux](https://cmux.com), rebuilt with:
+
+```sh
+sh demo/shoot.sh before <window> <workspace>
+sh demo/shoot.sh after <window> <workspace>
 ```
 
 MIT

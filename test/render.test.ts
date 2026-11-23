@@ -32,7 +32,13 @@ describe("tool renderers", () => {
   test("while arguments stream, the original renderer is used", () => {
     const original = { renderCall: () => "ORIGINAL" };
     const renderers = load().resolver("bash", () => original);
-    expect(renderers.renderCall({ command: "a && b" }, theme, { argsComplete: false })).toBe("ORIGINAL");
+    expect(renderers.renderCall({ command: "a && b" }, theme, { argsComplete: false, executionStarted: false, isPartial: true })).toBe("ORIGINAL");
+  });
+  test("calls restored from a saved session are formatted", () => {
+    const renderers = load().resolver("bash", () => undefined);
+    const restored = { argsComplete: false, executionStarted: false, isPartial: false, lastComponent: undefined };
+    const lines = renderers.renderCall({ command: "a && b" }, theme, restored).render(80).map((l: string) => l.trimEnd());
+    expect(lines).toEqual(["$ a &&", "    b"]);
   });
   test("other tools are untouched", () => {
     expect(load().resolver("read", () => "NEXT")).toBe("NEXT");

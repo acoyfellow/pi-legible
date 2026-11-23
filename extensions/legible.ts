@@ -23,12 +23,16 @@ The user reads every tool call and code block. Write code a human can scan:
 - Code blocks in replies: tag the language and use normal formatting, one statement per line.
 `;
 
+function argumentsSettled(context: { argsComplete?: boolean; executionStarted?: boolean; isPartial?: boolean }): boolean {
+  return Boolean(context.argsComplete || context.executionStarted || context.isPartial === false);
+}
+
 function legibleCall(next: ToolRenderers | undefined, call: CallFormatter): ToolRenderers {
   return {
     ...next,
     renderCall(args, theme, context) {
       const source = typeof args?.[call.field] === "string" ? (args[call.field] as string) : "";
-      if (!source || !context.argsComplete) {
+      if (!source || !argumentsSettled(context)) {
         return next?.renderCall ? next.renderCall(args, theme, context) : new Text(source, 0, 0);
       }
       next?.renderCall?.(args, theme, { ...context, lastComponent: undefined });
