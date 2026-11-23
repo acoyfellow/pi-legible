@@ -2,9 +2,13 @@
 
 Your coding agent shows you what it is about to run. You should be able to read it.
 
-| Without | With pi-legible |
-|---|---|
-| ![The same pi session without pi-legible: the shell command is one long line, the Python and SQL are cramped](docs/before.png) | ![The same session with pi-legible: one shell step per line, Python and SQL properly formatted](docs/after.png) |
+**Without:**
+
+<img src="docs/before.png" width="720" alt="A pi session without pi-legible: the shell command is one long line, the Python and SQL are cramped">
+
+**With pi-legible:**
+
+<img src="docs/after.png" width="720" alt="The same session with pi-legible: one shell step per line, Python and SQL properly formatted">
 
 Same session, same terminal. Real screenshots of pi.
 
