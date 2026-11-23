@@ -27,3 +27,4 @@ sleep 5
 REGION="$SIDEBAR,$TAB_BAR,$((WIDTH - SIDEBAR)),$((HEIGHT - TAB_BAR - FOOTER))"
 cmux shot --window "$WINDOW" --region "$REGION" --out "$REPO/docs/$NAME.png"
 python3 "$REPO/demo/trim.py" "$REPO/docs/$NAME.png"
+[ "$MODE" = "after" ] && python3 "$REPO/demo/hero.py" "$REPO/docs"
