@@ -5,7 +5,7 @@ type Resolver = (name: string, next: () => unknown) => any;
 
 function load() {
   let resolver: Resolver | undefined;
-  let transformer: ((markdown: string, context: { isStreaming: boolean }) => string) | undefined;
+  let transformer: ((markdown: string, context: { isStreaming: boolean; availableWidth?: number }) => string) | undefined;
   const api = {
     registerToolRenderer: (r: Resolver) => { resolver = r; },
     registerMarkdownTransformer: (t: typeof transformer) => { transformer = t; },
@@ -41,7 +41,7 @@ describe("tool renderers", () => {
 
 describe("markdown", () => {
   test("finished messages get formatted code blocks", () => {
-    expect(load().transformer("```py\nx=1\n```", { isStreaming: false })).toBe("```py\nx = 1\n```");
+    expect(load().transformer("```py\nx=1\n```", { isStreaming: false, availableWidth: 80 })).toBe("```py\nx = 1\n```");
   });
   test("streaming messages are left alone", () => {
     expect(load().transformer("```py\nx=1\n```", { isStreaming: true })).toBe("```py\nx=1\n```");

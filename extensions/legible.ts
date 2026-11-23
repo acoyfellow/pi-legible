@@ -11,6 +11,8 @@ const CALLS: Record<string, CallFormatter> = {
   codemode: { prompt: "js", field: "code", format: formatScript },
 };
 
+const CODE_BLOCK_INDENT = 4;
+
 const WRITING_RULE = `
 ## Legible code
 
@@ -47,7 +49,7 @@ export default function legible(pi: ExtensionAPI) {
     return call ? legibleCall(next(), call) : next();
   });
 
-  pi.registerMarkdownTransformer((markdown, context) => (context.isStreaming ? markdown : formatMarkdownCode(markdown)));
+  pi.registerMarkdownTransformer((markdown, context) => (context.isStreaming ? markdown : formatMarkdownCode(markdown, context.availableWidth - CODE_BLOCK_INDENT)));
 
   pi.on("before_agent_start", async (event) => ({ systemPrompt: `${event.systemPrompt}\n${WRITING_RULE}` }));
 }

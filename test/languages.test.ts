@@ -45,6 +45,12 @@ describe("formatCode", () => {
     expect(formatCode("const a = {\nfoo(", "typescript")).toBe("const a = {\nfoo(");
     expect(formatCode("{nope", "json")).toBe("{nope");
   });
+  test("wraps to the width it is given", () => {
+    const line = "return sum([i['price'] * i['qty'] for i in items if i.get('qty', 0) > 0])";
+    const narrow = formatCode(`def total(items):\n    ${line}`, "python", 60);
+    expect(narrow.split("\n").every((l) => l.length <= 60)).toBe(true);
+    expect(formatCode(`def total(items):\n    ${line}`, "python", 200).split("\n").length).toBe(2);
+  });
   test("unknown languages pass through", () => {
     expect(formatCode("fn main(){}", null)).toBe("fn main(){}");
   });

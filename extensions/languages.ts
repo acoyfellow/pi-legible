@@ -7,9 +7,14 @@ import { formatCommand } from "./shell";
 
 export type Language = "shell" | "typescript" | "javascript" | "tsx" | "jsx" | "json" | "python" | "go" | "sql" | "yaml";
 
-type Formatter = (code: string) => string;
+type Formatter = (code: string, width: number) => string;
 
-const SPACES = { indentStyle: "space", indentWidth: 2, lineWidth: 100 } as const;
+const DEFAULT_WIDTH = 100;
+const MIN_WIDTH = 20;
+
+function spaces(width: number) {
+  return { indentStyle: "space", indentWidth: 2, lineWidth: width } as const;
+}
 const MAX_INPUT = 20_000;
 
 const ALIASES: Record<string, Language> = {
@@ -27,14 +32,14 @@ const ALIASES: Record<string, Language> = {
 const EXTENSIONS: Record<string, string> = { typescript: "a.ts", javascript: "a.js", tsx: "a.tsx", jsx: "a.jsx", json: "a.json" };
 
 function biomeFormat(language: Language): Formatter {
-  return (code) => biome.format(code, EXTENSIONS[language], SPACES);
+  return (code, width) => biome.format(code, EXTENSIONS[language], spaces(width));
 }
 
 function scriptBody(language: Language): Formatter {
   const wrapperName = "__legible_body__";
-  return (code) => {
+  return (code, width) => {
     const wrapped = `async function ${wrapperName}() {\n${code}\n}\n`;
-    const formatted = biome.format(wrapped, EXTENSIONS[language], SPACES).trimEnd().split("\n");
+    const formatted = biome.format(wrapped, EXTENSIONS[language], spaces(width + 2)).trimEnd().split("\n");
     if (formatted[0] !== `async function ${wrapperName}() {` || formatted.at(-1) !== "}") throw new Error("unwrapped");
     return formatted.slice(1, -1).map((line) => line.replace(/^ {2}/, "")).join("\n");
   };
@@ -47,7 +52,7 @@ const FORMATTERS: Record<Language, Formatter> = {
   tsx: biomeFormat("tsx"),
   jsx: biomeFormat("jsx"),
   json: (code) => JSON.stringify(JSON.parse(code), null, 2),
-  python: (code) => ruff.format(code, null, { indent_width: 4, line_width: 100 }),
+  python: (code, width) => ruff.format(code, null, { indent_width: 4, line_width: width }),
   go: (code) => go.format(code),
   sql: (code) => sql.format(code, {}),
   yaml: (code) => yaml.format(code, {}),
@@ -58,15 +63,19 @@ export function languageOf(tag: string | undefined): Language | null {
   return ALIASES[tag.trim().toLowerCase().split(/[\s{]/)[0]] ?? null;
 }
 
+function clampWidth(width: number): number {
+  return Math.max(MIN_WIDTH, Math.min(DEFAULT_WIDTH, Math.floor(width)));
+}
+
 function sameTokens(before: string, after: string): boolean {
   const squash = (text: string) => text.replace(/[\s;,()]/g, "").replace(/["'`]/g, "'");
   return squash(before) === squash(after);
 }
 
-export function formatCode(code: string, language: Language | null): string {
+export function formatCode(code: string, language: Language | null, width = DEFAULT_WIDTH): string {
   if (!language || code.length > MAX_INPUT || !code.trim()) return code;
   try {
-    const formatted = FORMATTERS[language](code).replace(/\n+$/, "");
+    const formatted = FORMATTERS[language](code, clampWidth(width)).replace(/\n+$/, "");
     if (!formatted.trim()) return code;
     if (language !== "shell" && language !== "sql" && !sameTokens(code, formatted)) return code;
     return formatted;
@@ -75,10 +84,10 @@ export function formatCode(code: string, language: Language | null): string {
   }
 }
 
-export function formatScript(code: string): string {
+export function formatScript(code: string, width = DEFAULT_WIDTH): string {
   if (code.length > MAX_INPUT || !code.trim()) return code;
   try {
-    const formatted = scriptBody("typescript")(code);
+    const formatted = scriptBody("typescript")(code, clampWidth(width));
     return sameTokens(code, formatted) ? formatted : code;
   } catch {
     return code;
