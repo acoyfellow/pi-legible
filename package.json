@@ -1,17 +1,44 @@
 {
-  "name": "pi-legible-bash",
+  "name": "pi-legible",
   "version": "0.1.0",
-  "description": "Shows pi bash calls one step per line, and asks the model to write them that way.",
+  "description": "Makes code in pi legible: shell one step per line, code blocks and codemode scripts formatted, and asks the model to write it that way.",
   "type": "module",
   "license": "MIT",
   "author": "Jordan Coeyman",
-  "repository": { "type": "git", "url": "git+https://github.com/acoyfellow/pi-legible-bash.git" },
-  "keywords": ["pi-package", "pi-extension", "bash", "legibility"],
-  "files": ["extensions", "README.md", "LICENSE"],
-  "pi": { "extensions": ["./extensions/legible-bash.ts"] },
-  "scripts": { "test": "bun test" },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/acoyfellow/pi-legible.git"
+  },
+  "keywords": [
+    "pi-package",
+    "pi-extension",
+    "formatter",
+    "legibility",
+    "bash",
+    "markdown"
+  ],
+  "files": [
+    "extensions",
+    "README.md",
+    "LICENSE"
+  ],
+  "pi": {
+    "extensions": [
+      "./extensions/legible.ts"
+    ]
+  },
+  "scripts": {
+    "test": "bun test"
+  },
   "peerDependencies": {
     "@earendil-works/pi-coding-agent": "*",
     "@earendil-works/pi-tui": "*"
+  },
+  "dependencies": {
+    "@wasm-fmt/biome_fmt": "^0.2.10",
+    "@wasm-fmt/gofmt": "^0.7.3",
+    "@wasm-fmt/ruff_fmt": "^0.15.20",
+    "@wasm-fmt/sql_fmt": "^0.2.2",
+    "@wasm-fmt/yamlfmt": "^0.2.1"
   }
 }

@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import { formatCommand, splitTopLevel } from "../extensions/format";
+import { formatCommand, splitTopLevel } from "../extensions/shell";
 
 describe("splitTopLevel", () => {
   test("splits on ; && || and | at the top level", () => {
