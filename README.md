@@ -4,11 +4,11 @@ Your coding agent shows you what it is about to run. You should be able to read 
 
 **Without:**
 
-<img src="docs/before.png" width="720" alt="A pi session without pi-legible: the shell command is one long line, the Python and SQL are cramped">
+<img src="docs/without.png" width="720" alt="A pi session without pi-legible: the shell command is one long line, the Python and SQL are cramped">
 
 **With pi-legible:**
 
-<img src="docs/after.png" width="720" alt="The same session with pi-legible: one shell step per line, Python and SQL properly formatted">
+<img src="docs/with.png" width="720" alt="The same session with pi-legible: one shell step per line, Python and SQL properly formatted">
 
 Same session, same terminal. Real screenshots of pi.
 
