@@ -1,7 +1,7 @@
 #!/bin/sh
 MODE="$1"
 DEMO_DIR=/tmp/pi-legible-demo
-REPO=/Users/jcoeyman/cloudflare/pi-legible
+REPO=$(cd "$(dirname "$0")/.." && pwd)
 SESSION="$DEMO_DIR/session-$MODE.jsonl"
 
 mkdir -p "$DEMO_DIR/agent-$MODE" /tmp/shop

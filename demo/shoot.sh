@@ -1,13 +1,18 @@
 #!/bin/sh
 MODE="$1"
-WINDOW=A9ECC026-CF32-48AD-A2E5-6C8FE3DAB504
-WORKSPACE=workspace:1000040055
-REPO=/Users/jcoeyman/cloudflare/pi-legible
+WINDOW="$2"
+WORKSPACE="$3"
+REPO=$(cd "$(dirname "$0")/.." && pwd)
 WIDTH=1000
 HEIGHT=1040
 SIDEBAR=236
 TAB_BAR=60
 FOOTER=170
+
+if [ -z "$MODE" ] || [ -z "$WINDOW" ] || [ -z "$WORKSPACE" ]; then
+  echo "usage: demo/shoot.sh before|after <cmux-window-id> <cmux-workspace-ref>"
+  exit 1
+fi
 
 cmux resize-window --window $WINDOW --width $WIDTH --height $HEIGHT >/dev/null
 cmux send-key --workspace $WORKSPACE ctrl+c >/dev/null
