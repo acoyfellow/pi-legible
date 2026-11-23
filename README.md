@@ -4,9 +4,13 @@ Your coding agent shows you what it is about to run. You should be able to read 
 
 <img src="https://raw.githubusercontent.com/acoyfellow/pi-legible/main/docs/hero.gif" width="720" alt="A pi session switching between without and with pi-legible">
 
-| Without | With |
-|---|---|
-| <img src="https://raw.githubusercontent.com/acoyfellow/pi-legible/main/docs/without.png" alt="Without pi-legible: one long shell line, cramped Python and SQL"> | <img src="https://raw.githubusercontent.com/acoyfellow/pi-legible/main/docs/with.png" alt="With pi-legible: one shell step per line, formatted Python and SQL"> |
+<table>
+<tr><th>Without</th><th>With</th></tr>
+<tr>
+<td valign="top"><img src="https://raw.githubusercontent.com/acoyfellow/pi-legible/main/docs/without.png" alt="Without pi-legible: one long shell line, cramped Python and SQL"></td>
+<td valign="top"><img src="https://raw.githubusercontent.com/acoyfellow/pi-legible/main/docs/with.png" alt="With pi-legible: one shell step per line, formatted Python and SQL"></td>
+</tr>
+</table>
 
 This [pi](https://pi.dev) extension makes the code in your transcript legible:
 
