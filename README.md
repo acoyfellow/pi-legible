@@ -15,7 +15,7 @@ Your coding agent shows you what it is about to run. You should be able to read 
 This [pi](https://pi.dev) extension makes the code in your transcript legible:
 
 1. **Shell calls** show one step per line.
-2. **Code blocks** in replies are run through a real formatter.
+2. **Code blocks** in replies and thinking traces are run through a real formatter.
 3. **`codemode` scripts** are formatted as JavaScript.
 4. **The model is asked** to write legible code in the first place.
 

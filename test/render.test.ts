@@ -5,7 +5,7 @@ type Resolver = (name: string, next: () => unknown) => any;
 
 function load() {
   let resolver: Resolver | undefined;
-  let transformer: ((markdown: string, context: { isStreaming: boolean; availableWidth?: number }) => string) | undefined;
+  let transformer: ((markdown: string, context: { isStreaming: boolean; availableWidth?: number; messageType?: string }) => string) | undefined;
   const api = {
     registerToolRenderer: (r: Resolver) => { resolver = r; },
     registerMarkdownTransformer: (t: typeof transformer) => { transformer = t; },
@@ -48,6 +48,10 @@ describe("tool renderers", () => {
 describe("markdown", () => {
   test("finished messages get formatted code blocks", () => {
     expect(load().transformer("```py\nx=1\n```", { isStreaming: false, availableWidth: 80 })).toBe("```py\nx = 1\n```");
+  });
+  test("thinking traces get formatted code blocks too", () => {
+    const context = { isStreaming: false, availableWidth: 80, messageType: "assistant-thinking" };
+    expect(load().transformer("```py\nx=1\n```", context)).toBe("```py\nx = 1\n```");
   });
   test("streaming messages are left alone", () => {
     expect(load().transformer("```py\nx=1\n```", { isStreaming: true })).toBe("```py\nx=1\n```");

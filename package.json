@@ -1,6 +1,6 @@
 {
   "name": "pi-legible",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Makes code in pi legible: shell one step per line, code blocks and codemode scripts formatted, and asks the model to write it that way.",
   "type": "module",
   "license": "MIT",

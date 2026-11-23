@@ -41,8 +41,25 @@ async function streamToolCall(response) {
   chunk(response, {}, "tool_calls");
 }
 
+const THINKING = [
+  "The fee is added even when qty is 0. Something like:",
+  "",
+  "```python",
+  "def cart_total(items):",
+  "  return sum([i['price']*i['qty']+i.get('fee',0) for i in items if i.get('qty',0)>0])",
+  "```",
+].join("\n");
+
+async function streamThinking(response) {
+  for (let at = 0; at < THINKING.length; at += CHUNK) {
+    chunk(response, { reasoning_content: THINKING.slice(at, at + CHUNK) });
+    await sleep(CHUNK_MS);
+  }
+}
+
 async function streamText(response) {
   chunk(response, { role: "assistant", content: "" });
+  if (process.env.DEMO_THINKING) await streamThinking(response);
   for (let at = 0; at < REPLY.length; at += CHUNK) {
     chunk(response, { content: REPLY.slice(at, at + CHUNK) });
     await sleep(CHUNK_MS);
